@@ -12,10 +12,9 @@ function initColorPicker() {
     baseColor = userChangedColor(colorPicker.value);
     colorPicker.addEventListener("input", userChangedColor);
 
-    // Todo
-    // colorHarmonies.forEach((colorHarmony) => {
-    //     colorHarmony.addEventListener("click", userChangedHarmony);
-    // });
+    colorHarmonies.forEach((colorHarmony) => {
+        colorHarmony.addEventListener("click", userChangedHarmony);
+    });
 }
 
 function userChangedColor() {
@@ -33,9 +32,9 @@ function userChangedHarmony() {
     baseColor = convertColor(colorPicker.value);
     harmony = document.querySelector('.js-color-harmony input[name="color-harmony"]:checked').value;
 
-    const harmonyColors = getHarmonyColors(baseColor, harmony);
+    const colorPalette = getHarmonyColors(baseColor, harmony);
 
-    showColor(baseColor);
+    colorPalette.forEach(showColor);
 }
 
 function convertColor(baseColor) {
@@ -233,22 +232,222 @@ function calculateAnalogousColors(baseColor) {
 
 function calculateMonochromaticColors(baseColor) {
     console.log("calculateMonochromaticColors");
+
+    const monochromaticColors = [];
+
+    for (let i = 1; i < 6; i++) {
+        if (i !== 3) {
+            const baseColorHslClone = Object.assign({}, baseColor.hsl);
+            const hslNumber = parseInt(baseColorHslClone.s) - 30 + 10 * i;
+
+            console.log(hslNumber);
+
+            console.log("HSLNumber", hslNumber);
+            if (hslNumber > 100) {
+                console.log("Should be: ", hslNumber % 100);
+                baseColorHslClone.s = Math.abs(hslNumber % 100);
+            } else if (hslNumber < 0) {
+                baseColorHslClone.s = 100 - Math.abs(hslNumber);
+                console.log("Test:", 100 - hslNumber);
+            } else {
+                console.log("Is correct: ", hslNumber);
+                baseColorHslClone.s = hslNumber;
+            }
+
+            console.log(" ");
+
+            const newColorRgb = convertHslToRgb(baseColorHslClone);
+            const newColorHex = convertRgbToHex(newColorRgb);
+
+            const color = {
+                hex: newColorHex,
+                rgb: newColorRgb,
+                hsl: baseColorHslClone,
+            };
+
+            monochromaticColors.push(color);
+        }
+    }
+
+    return monochromaticColors;
 }
 
 function calculateTriadColors(baseColor) {
     console.log("calculateTriadColors");
+
+    const triadColors = [];
+
+    for (let i = 1; i < 6; i++) {
+        if (i !== 3) {
+            const baseColorHslClone = Object.assign({}, baseColor.hsl);
+            const hslNumber = parseInt(baseColorHslClone.h) - 180 + 60 * i;
+
+            console.log(hslNumber);
+
+            console.log("HSLNumber", hslNumber);
+            if (hslNumber > 360) {
+                console.log("Should be: ", hslNumber % 360);
+                baseColorHslClone.h = Math.abs(hslNumber % 360);
+            } else if (hslNumber < 0) {
+                baseColorHslClone.h = 360 - Math.abs(hslNumber);
+                console.log("Test:", 360 - hslNumber);
+            } else {
+                console.log("Is correct: ", hslNumber);
+                baseColorHslClone.h = hslNumber;
+            }
+
+            console.log(" ");
+
+            const newColorRgb = convertHslToRgb(baseColorHslClone);
+            const newColorHex = convertRgbToHex(newColorRgb);
+
+            const color = {
+                hex: newColorHex,
+                rgb: newColorRgb,
+                hsl: baseColorHslClone,
+            };
+
+            triadColors.push(color);
+        }
+    }
+
+    return triadColors;
 }
 
 function calculateComplementaryColors(baseColor) {
     console.log("calculateComplementaryColors");
+
+    const complementaryColors = [];
+
+    for (let i = 1; i < 6; i++) {
+        if (i !== 3) {
+            const baseColorHslClone = Object.assign({}, baseColor.hsl);
+            let hslNumber;
+
+            if (i === 1 || i === 2) {
+                hslNumber = parseInt(baseColorHslClone.h) - 15 + 5 * i;
+            } else if (i === 4) {
+                hslNumber = parseInt(baseColorHslClone.h) + 180;
+            } else {
+                hslNumber = parseInt(baseColorHslClone.h) + 185;
+            }
+
+            console.log(hslNumber);
+
+            console.log("HSLNumber", hslNumber);
+            if (hslNumber > 360) {
+                console.log("Should be: ", hslNumber % 360);
+                baseColorHslClone.h = Math.abs(hslNumber % 360);
+            } else if (hslNumber < 0) {
+                baseColorHslClone.h = 360 - Math.abs(hslNumber);
+                console.log("Test:", 360 - hslNumber);
+            } else {
+                console.log("Is correct: ", hslNumber);
+                baseColorHslClone.h = hslNumber;
+            }
+
+            console.log(" ");
+
+            const newColorRgb = convertHslToRgb(baseColorHslClone);
+            const newColorHex = convertRgbToHex(newColorRgb);
+
+            const color = {
+                hex: newColorHex,
+                rgb: newColorRgb,
+                hsl: baseColorHslClone,
+            };
+
+            complementaryColors.push(color);
+        }
+    }
+
+    return complementaryColors;
 }
 
 function calculateCompoundColors(baseColor) {
     console.log("calculateCompoundColors");
+
+    const compoundColors = [];
+
+    for (let i = 1; i < 6; i++) {
+        if (i !== 3) {
+            const baseColorHslClone = Object.assign({}, baseColor.hsl);
+            let hslNumber;
+
+            hslNumber = parseInt(baseColorHslClone.h) - 216 + 72 * i;
+
+            console.log(hslNumber);
+
+            console.log("HSLNumber", hslNumber);
+            if (hslNumber > 360) {
+                console.log("Should be: ", hslNumber % 360);
+                baseColorHslClone.h = Math.abs(hslNumber % 360);
+            } else if (hslNumber < 0) {
+                baseColorHslClone.h = 360 - Math.abs(hslNumber);
+                console.log("Test:", 360 - hslNumber);
+            } else {
+                console.log("Is correct: ", hslNumber);
+                baseColorHslClone.h = hslNumber;
+            }
+
+            console.log(" ");
+
+            const newColorRgb = convertHslToRgb(baseColorHslClone);
+            const newColorHex = convertRgbToHex(newColorRgb);
+
+            const color = {
+                hex: newColorHex,
+                rgb: newColorRgb,
+                hsl: baseColorHslClone,
+            };
+
+            compoundColors.push(color);
+        }
+    }
+
+    return compoundColors;
 }
 
 function calculateShadeColors(baseColor) {
     console.log("calculateShadeColors");
+
+    const shadeColors = [];
+
+    for (let i = 1; i < 6; i++) {
+        if (i !== 3) {
+            const baseColorHslClone = Object.assign({}, baseColor.hsl);
+            const hslNumber = parseInt(baseColorHslClone.l) - 30 + 10 * i;
+
+            console.log(hslNumber);
+
+            console.log("HSLNumber", hslNumber);
+            if (hslNumber > 100) {
+                console.log("Should be: ", hslNumber % 100);
+                baseColorHslClone.l = Math.abs(hslNumber % 100);
+            } else if (hslNumber < 0) {
+                baseColorHslClone.l = 100 - Math.abs(hslNumber);
+                console.log("Test:", 100 - hslNumber);
+            } else {
+                console.log("Is correct: ", hslNumber);
+                baseColorHslClone.l = hslNumber;
+            }
+
+            console.log(" ");
+
+            const newColorRgb = convertHslToRgb(baseColorHslClone);
+            const newColorHex = convertRgbToHex(newColorRgb);
+
+            const color = {
+                hex: newColorHex,
+                rgb: newColorRgb,
+                hsl: baseColorHslClone,
+            };
+
+            shadeColors.push(color);
+        }
+    }
+
+    return shadeColors;
 }
 
 function showColor(color, index) {
@@ -259,6 +458,7 @@ function showColor(color, index) {
 }
 
 function showColorBox(color, index) {
+    console.log(index);
     document.querySelector(`.c-color-palette__color:nth-child(${index + 1}) .js-color-box`).style.backgroundColor = color.hex;
 }
 

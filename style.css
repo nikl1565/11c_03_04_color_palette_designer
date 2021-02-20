@@ -11,28 +11,37 @@ body {
 }
 
 .o-container {
-    max-width: 1000px;
+    max-width: 896px;
     margin: 0 auto;
 }
 
 .c-color-picker {
-    background-color: #fff;
-    padding: 3rem;
-    border-radius: 5px;
+    margin-bottom: 3rem;
+    text-align: center;
 }
 
-input {
-    margin-bottom: 1rem;
+.c-color-harmony {
+    text-align: center;
+    margin-bottom: 3rem;
 }
 
 .c-color-palette {
     display: flex;
     justify-content: center;
-    padding: 2rem;
+}
+
+.c-color-palette__color p:last-child {
+    margin-bottom: 0;
 }
 
 .c-color-palette__color-box {
     height: 160px;
     width: 160px;
     background-color: #000;
+}
+
+.c-color-app {
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 5px;
 }
